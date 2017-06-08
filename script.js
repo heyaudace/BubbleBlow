@@ -1,8 +1,8 @@
 function giveBubble(index, maximum_diameter){
-	var diameter = Math.ceil((Math.random()*maximum_diameter*0.2));
+	var diameter = Math.ceil((Math.random()*maximum_diameter*0.1));
 	var diameter_element = '<div class="diameter_element">'+diameter.toString()+'</div>';
 
-	var colors = ["blue", "yellow", "orange", "red", "green"];
+	var colors = ["blue", "yellow", "orange", "red", "green", "#337ab7"];
 	var color = colors[Math.floor(Math.random()*colors.length)];
 	var max_score_computer = parseInt($('#max_score_computer').text());
 	max_score_computer += diameter
@@ -14,7 +14,7 @@ function giveBubble(index, maximum_diameter){
 
 	$('#efficiency_computer').text(efficiency_now.toString().substring(0, 5));
 
-	var magin_number = Math.floor(Math.random()*100);
+	var magin_number = Math.floor(Math.random()*80);
 	new_css = 'width: '+diameter.toString()+'px; height: '+diameter.toString()+ 
 	'px; background-color: '+color+'; points='+diameter.toString()+'; margin-left: '+magin_number.toString()+'%';
 	var circle = '<div id="bubble'+index.toString()+'" class="bubbles" style="'+new_css+'" index="'+index.toString()+'" points="'+diameter+'">'+diameter_element+'</div>';
@@ -35,14 +35,14 @@ $(document).ready(function(){
 		var this_class = e.target.getAttribute('class');
 		if(this_class == 'bubbles'){
 			this_id = e.target.getAttribute('id');
-			$('#'+this_id).prop("disabled", true);
+			$('#'+this_id).addClass('blownbubbles').removeClass('bubbles');
 			var these_points = parseInt(e.target.getAttribute('points'));
 			var current_points = parseInt($('#current_score_computer').text())
 			current_points += these_points
 			$('#current_score_computer').text(current_points);
 			$('#'+this_id).effect('bounce', {times: 5}, "fast");
 			$('#current_score_computer').effect('bounce', {times: 20}, "slow");
-			$('#'+this_id).effect('explode');
+			$('#'+this_id).effect('explode', 500);
 		}
 	});
 
@@ -50,7 +50,7 @@ $(document).ready(function(){
 	function generate(){
 		if(timestep < 1000){
 			mycircle = giveBubble(timestep, screen.width*.8)
-			$('#playground_border').append(mycircle);
+			$('#playground_border').prepend(mycircle);
 			$('div').each(function(){
 				var this_class = $(this).attr('class');
 				if(this_class == 'bubbles'){

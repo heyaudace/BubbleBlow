@@ -1,9 +1,9 @@
-@media screen and (min-width: 500px) {
+@media screen and (min-width: 750px) {
 	#playground_border {
-		background-color: gray;
+		background: linear-gradient(#337ab7, white, #337ab7);
 		max-width: 100%;
 		min-width: 250px;
-		min-height: 1000px;
+		min-height: 750px;
 		border: 2px solid black;
 		text-align: center;
 		overflow: hidden;
@@ -12,23 +12,46 @@
 		border-radius: 100%;
 		max-width: 100%;
 	}
+	#current_score{
+	z-index: 10;
+	position: absolute;
+	font-family: Verdana;
+	font-size: 200;
+	width: 180px;
+	background-color: white;
+	text-align: center;
+	}
+}
+
+@media screen and (max-width: 750px){
+	#current_score{
+	z-index: 10;
+	position: absolute;
+	font-family: Verdana;
+	font-size: 200;
+	width: 100%;
+	background-color: white;
+	text-align: center;
+	}
+	#playground_border {
+		background: linear-gradient(#337ab7, white, #337ab7);
+		max-width: 100%;
+		min-width: 250px;
+		min-height: 750px;
+		border: 2px solid black;
+		text-align: center;
+		overflow: hidden;
+	}
 }
 .bubbles{
+	border-radius: 100%;
+	max-width: 100%;
+}
+.blownbubbles{
 	border-radius: 100%;
 	max-width: 100%;
 }
 .diameter_element{
 	font-family: Verdana;
 	padding: auto;
-}
-
-#current_score{
-	z-index: 10;
-	position: absolute;
-	font-family: Verdana;
-	font-size: 200;
-	height: 200px;
-	width: 200px;
-	background-color: white;
-	text-align: center;
 }
