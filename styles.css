@@ -1,0 +1,34 @@
+@media screen and (min-width: 500px) {
+	#playground_border {
+		background-color: gray;
+		max-width: 100%;
+		min-width: 250px;
+		min-height: 1000px;
+		border: 2px solid black;
+		text-align: center;
+		overflow: hidden;
+	}
+	.bubbles {
+		border-radius: 100%;
+		max-width: 100%;
+	}
+}
+.bubbles{
+	border-radius: 100%;
+	max-width: 100%;
+}
+.diameter_element{
+	font-family: Verdana;
+	padding: auto;
+}
+
+#current_score{
+	z-index: 10;
+	position: absolute;
+	font-family: Verdana;
+	font-size: 200;
+	height: 200px;
+	width: 200px;
+	background-color: white;
+	text-align: center;
+}
