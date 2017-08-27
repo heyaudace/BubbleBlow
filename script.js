@@ -1,7 +1,7 @@
 const dom = goog.require('goog.dom');
 const events = goog.require('goog.events');
 const EventType = goog.require('goog.events.EventType');
-
+const home = '/Users/audace/';
 /**
  * Generates a div element that corresponds to a bubble
  * @param {number} index
@@ -29,31 +29,32 @@ function giveBubble(index, maximum_diameter) {
 	const newCss = {
 		width: diameter,
 		height: diameter,
-		"background-color": color,
+		'background-color': color,
 		points: diameter,
-		"margin-left": marginNumber
+		'margin-left': marginNumber
 
 	};
 	const circle = dom.createDom(dom.TagName.DIV, {
-		id: 'bubble' + index.tostring();
+		id: 'bubble' + index.tostring(),
 		classname: 'bubbles',
-		style: generateStyleString(newCss);
+		style: generateStyleString(newCss),
 		index: index.toString(),
-		points: diameter;
+		points: diameter,
 	}, diameterElement);
 	return circle;
 }
 
 /**
- * Given a css style object, generates a style string that corresponds to 
+ * Given a css style object, generates a style string that corresponds to
  * that object
- * @param{Object} cssStyle
- * @return{string} styleString
+ * @param {Object} cssStyle
+ * @return {string} styleString
  */
-function generateStyleString(cssStyle){
-	var styleString = "";
-	for(var atribute in cssStyle){
-		styleString += attribute.toString() + "=" + cssStyle[attribute].toString() + ";";
+function generateStyleString(cssStyle) {
+	var styleString = '';
+	for (var atribute in cssStyle) {
+		styleString += attribute.toString() + '=' +
+			cssStyle[attribute].toString() + ';';
 	}
 	styleString = styleString.substring(0, styleString.length);
 	return styleString;
@@ -93,7 +94,7 @@ function handleEvents() {
  * Initializes the game
  *
  */
-function initialize(){
+function initialize() {
 	handleEvents();
 	var timeStep = 0;
 		if (timeStep < 1000) {
@@ -116,6 +117,6 @@ function initialize(){
 		else {
 			clearTimeout(animate);
 		}
-});
+}
 
-events.listen(document, EventType.READY, initialize, false);
+events.listen(window, EventType.READY, initialize, false);
