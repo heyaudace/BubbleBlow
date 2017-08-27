@@ -1,7 +1,7 @@
 const dom = goog.require('goog.dom');
 const events = goog.require('goog.events');
 const EventType = goog.require('goog.events.EventType');
-const home = '/Users/audace/';
+
 /**
  * Generates a div element that corresponds to a bubble
  * @param {number} index
