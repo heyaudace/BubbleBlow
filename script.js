@@ -1,73 +1,121 @@
+const dom = goog.require('goog.dom');
+const events = goog.require('goog.events');
+const EventType = goog.require('goog.events.EventType');
+
+/**
+ * Generates a div element that corresponds to a bubble
+ * @param {number} index
+ * @param {number} maximum_diameter
+ * @return {Element} circle
+ */
 function giveBubble(index, maximum_diameter) {
-	var diameter = Math.ceil((Math.random() * maximum_diameter * 0.1));
-	var diameter_element = '<div class="diameter_element">' + diameter.toString() + '</div>';
+	const diameter = Math.ceil((Math.random() * maximum_diameter * 0.1));
+	const diameterElement = dom.createDom(dom.TagName.DIV,
+		{className: 'diameter-element'}, diameter.toString());
 
-	var colors = ['blue', 'yellow', 'orange', 'red', 'green', '#337ab7'];
-	var color = colors[Math.floor(Math.random() * colors.length)];
-	var max_score_computer = parseInt($('#max_score_computer').text());
-	max_score_computer += diameter;
+	const colors = ['blue', 'yellow', 'orange', 'red', 'green', '#337ab7'];
+	const color = colors[Math.floor(Math.random() * colors.length)];
+	var maximumScoreComputer = parseInt($('#maximumScoreComputer').text());
+	maximumScoreComputer += diameter;
 
-	$('#max_score_computer').text(max_score_computer);
+	$('#maximumScoreComputer').text(maximumScoreComputer);
 
-	var current_score_now = parseInt($('#current_score_computer').text());
-	var efficiency_now = (current_score_now / max_score_computer) * 100;
+	const currentScoreNow = parseInt($('#currentScoreComputer').text());
+	const efficiencyNow = (currentScoreNow / maximumScoreComputer) * 100;
 
-	$('#efficiency_computer').text(efficiency_now.toString().substring(0, 5));
+	$('#efficiency_computer').text(efficiencyNow.toString().substring(0, 5));
 
-	var magin_number = Math.floor(Math.random() * 80);
-	new_css = 'width: ' + diameter.toString() + 'px; height: ' + diameter.toString() +
-	'px; background-color: ' + color + '; points=' + diameter.toString() + '; margin-left: ' + magin_number.toString() + '%';
-	var circle = '<div id="bubble' + index.toString() + '" class="bubbles" style="' + new_css + '" index="' + index.toString() + '" points="' + diameter + '">' + diameter_element + '</div>';
+	const marginNumber = Math.floor(Math.random() * 80);
+	const newCss = {
+		width: diameter,
+		height: diameter,
+		"background-color": color,
+		points: diameter,
+		"margin-left": marginNumber
+
+	};
+	const circle = dom.createDom(dom.TagName.DIV, {
+		id: 'bubble' + index.tostring();
+		classname: 'bubbles',
+		style: generateStyleString(newCss);
+		index: index.toString(),
+		points: diameter;
+	}, diameterElement);
 	return circle;
 }
 
-$(document).ready(function() {
+/**
+ * Given a css style object, generates a style string that corresponds to 
+ * that object
+ * @param{Object} cssStyle
+ * @return{string} styleString
+ */
+function generateStyleString(cssStyle){
+	var styleString = "";
+	for(var atribute in cssStyle){
+		styleString += attribute.toString() + "=" + cssStyle[attribute].toString() + ";";
+	}
+	styleString = styleString.substring(0, styleString.length);
+	return styleString;
+}
+/**
+ * Controllls click and doubleClick events
+ * for the bubbles
+ *
+ */
+function handleEvents() {
 
 	$('div').dblclick(function(e) {
-		var this_class = e.target.getAttribute('class');
-		if (this_class == 'bubbles') {
-			this_id = e.target.getAttribute('id');
-			$('#' + this_id).css('border', '5px solid gray');
-			$('#' + this_id).effect('explode');
+		var thisClass = e.target.getAttribute('class');
+		if (thisClass == 'bubbles') {
+			thisId = e.target.getAttribute('id');
+			$('#' + thisId).css('border', '5px solid gray');
+			$('#' + thisId).effect('explode');
 		}
 	});
 	$('div').click(function(e) {
-		var this_class = e.target.getAttribute('class');
-		if (this_class == 'bubbles') {
-			this_id = e.target.getAttribute('id');
-			$('#' + this_id).addClass('blownbubbles').removeClass('bubbles');
-			var these_points = parseInt(e.target.getAttribute('points'));
-			var current_points = parseInt($('#current_score_computer').text());
-			current_points += these_points;
-			$('#current_score_computer').text(current_points);
-			$('#' + this_id).effect('bounce', {times: 5}, 'fast');
-			$('#current_score_computer').effect('bounce', {times: 20}, 'slow');
-			$('#' + this_id).effect('explode', 500);
+		const thisClass = e.target.getAttribute('class');
+		if (thisClass == 'bubbles') {
+			const thisId = e.target.getAttribute('id');
+			$('#' + thisId).addClass('blownBubbles').removeClass('bubbles');
+			const thesePoints = parseInt(e.target.getAttribute('points'));
+			var currentPoints = parseInt($('#currentScoreComputer').text());
+			currentPoints += thesePoints;
+			$('#currentScoreComputer').text(currentPoints);
+			$('#' + thisId).effect('bounce', {times: 5}, 'fast');
+			$('#currentScoreComputer').effect('bounce', {times: 20}, 'slow');
+			$('#' + thisId).effect('explode', 500);
 		}
 	});
+}
 
-	var timestep = 0;
-	function generate() {
-		if (timestep < 1000) {
-			mycircle = giveBubble(timestep, screen.width * .8);
-			$('#playground_border').prepend(mycircle);
+/**
+ * Initializes the game
+ *
+ */
+function initialize(){
+	handleEvents();
+	var timeStep = 0;
+		if (timeStep < 1000) {
+			myCircle = giveBubble(timeStep, screen.width * .8);
+			$('#playground_border').prepend(myCircle);
 			$('div').each(function() {
-				var this_class = $(this).attr('class');
-				if (this_class == 'bubbles') {
-					this_index = parseInt($(this).attr('index'));
-					if (this_index < timestep - 10) {
+				var thisClass = $(this).attr('class');
+				if (thisClass == 'bubbles') {
+					thisIndex = parseInt($(this).attr('index'));
+					if (thisIndex < timeStep - 10) {
 						$(this).css('background-color', 'yellow');
 						$(this).fadeOut(200);
 					}
 				}
 
 			});
-			timestep++;
+			timeStep++;
 			animate = setTimeout(generate, 500);
 		}
 		else {
 			clearTimeout(animate);
 		}
-	}
-	generate();
 });
+
+events.listen(document, EventType.READY, initialize, false);
