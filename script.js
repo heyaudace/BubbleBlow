@@ -1,7 +1,7 @@
-const dom = goog.require('goog.dom');
-const events = goog.require('goog.events');
-const EventType = goog.require('goog.events.EventType');
-
+goog.require('goog.dom');
+const dom = goog.dom;
+console.log(dom, 'is dom');
+console.log('over');
 /**
  * Generates a div element that corresponds to a bubble
  * @param {number} index
@@ -35,7 +35,7 @@ function giveBubble(index, maximum_diameter) {
 
 	};
 	const circle = dom.createDom(dom.TagName.DIV, {
-		id: 'bubble' + index.tostring(),
+		id: 'bubble' + index.toString(),
 		classname: 'bubbles',
 		style: generateStyleString(newCss),
 		index: index.toString(),
@@ -52,7 +52,8 @@ function giveBubble(index, maximum_diameter) {
  */
 function generateStyleString(cssStyle) {
 	var styleString = '';
-	for (var atribute in cssStyle) {
+	window.cssStyle = cssStyle;
+	for (const attribute in cssStyle) {
 		styleString += attribute.toString() + '=' +
 			cssStyle[attribute].toString() + ';';
 	}
@@ -112,11 +113,11 @@ function initialize() {
 
 			});
 			timeStep++;
-			animate = setTimeout(generate, 500);
+			animate = setTimeout(initialize, 500);
 		}
 		else {
 			clearTimeout(animate);
 		}
 }
 
-events.listen(window, EventType.READY, initialize, false);
+$(document).ready(() => {initialize()});
