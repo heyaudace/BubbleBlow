@@ -1,7 +1,5 @@
 goog.require('goog.dom');
-const dom = goog.dom;
-console.log(dom, 'is dom');
-console.log('over');
+var dom = goog.dom;
 /**
  * Generates a div element that corresponds to a bubble
  * @param {number} index
@@ -15,32 +13,35 @@ function giveBubble(index, maximum_diameter) {
 
 	const colors = ['blue', 'yellow', 'orange', 'red', 'green', '#337ab7'];
 	const color = colors[Math.floor(Math.random() * colors.length)];
-	var maximumScoreComputer = parseInt($('#maximumScoreComputer').text());
+	var maximumScoreComputer = parseInt($('#maximum-score-computer').text());
 	maximumScoreComputer += diameter;
 
-	$('#maximumScoreComputer').text(maximumScoreComputer);
+	$('#maximum-score-computer').text(maximumScoreComputer);
 
-	const currentScoreNow = parseInt($('#currentScoreComputer').text());
+	const currentScoreNow = parseInt($('#current-score-computer').text());
 	const efficiencyNow = (currentScoreNow / maximumScoreComputer) * 100;
 
-	$('#efficiency_computer').text(efficiencyNow.toString().substring(0, 5));
+	$('#efficiency-computer').text(efficiencyNow.toString().substring(0, 5));
 
 	const marginNumber = Math.floor(Math.random() * 80);
 	const newCss = {
-		width: diameter,
-		height: diameter,
+		width: diameter.toString()+'px',
+		height: diameter.toString()+'px',
 		'background-color': color,
 		points: diameter,
-		'margin-left': marginNumber
+		'margin-left': marginNumber.toString() + '%',
+		'text-align': 'center',
+		'padding-top': (diameter/2.3).toString()+'px'
 
 	};
 	const circle = dom.createDom(dom.TagName.DIV, {
 		id: 'bubble' + index.toString(),
-		classname: 'bubbles',
-		style: generateStyleString(newCss),
-		index: index.toString(),
-		points: diameter,
+		className: 'bubbles',
+		'style': generateStyleString(newCss).toString(),
+		'index': index.toString(),
+		'points': diameter.toString(),
 	}, diameterElement);
+	window.circle = circle;
 	return circle;
 }
 
@@ -54,7 +55,7 @@ function generateStyleString(cssStyle) {
 	var styleString = '';
 	window.cssStyle = cssStyle;
 	for (const attribute in cssStyle) {
-		styleString += attribute.toString() + '=' +
+		styleString += attribute.toString() + ':' +
 			cssStyle[attribute].toString() + ';';
 	}
 	styleString = styleString.substring(0, styleString.length);
@@ -81,11 +82,12 @@ function handleEvents() {
 			const thisId = e.target.getAttribute('id');
 			$('#' + thisId).addClass('blownBubbles').removeClass('bubbles');
 			const thesePoints = parseInt(e.target.getAttribute('points'));
-			var currentPoints = parseInt($('#currentScoreComputer').text());
+			var currentPoints = parseInt($('#current-score-computer').text());
+			console.log('these: ', thesePoints, ' current :', currentPoints);
 			currentPoints += thesePoints;
-			$('#currentScoreComputer').text(currentPoints);
+			$('#current-score-computer').text(currentPoints);
 			$('#' + thisId).effect('bounce', {times: 5}, 'fast');
-			$('#currentScoreComputer').effect('bounce', {times: 20}, 'slow');
+			$('#current-score-computer').effect('bounce', {times: 20}, 'slow');
 			$('#' + thisId).effect('explode', 500);
 		}
 	});
@@ -95,11 +97,10 @@ function handleEvents() {
  * Initializes the game
  *
  */
-function initialize() {
+function initialize(timeStep = 0) {
 	handleEvents();
-	var timeStep = 0;
-		if (timeStep < 1000) {
-			myCircle = giveBubble(timeStep, screen.width * .8);
+	if (timeStep < 1000) {
+		myCircle = giveBubble(timeStep, screen.width * .8);
 			$('#playground_border').prepend(myCircle);
 			$('div').each(function() {
 				var thisClass = $(this).attr('class');
@@ -112,12 +113,9 @@ function initialize() {
 				}
 
 			});
-			timeStep++;
-			animate = setTimeout(initialize, 500);
+			animate = setTimeout(() => {initialize(timeStep+1)}, 1000);
 		}
 		else {
 			clearTimeout(animate);
-		}
+	}
 }
-
-$(document).ready(() => {initialize()});

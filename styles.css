@@ -1,5 +1,5 @@
 @media screen and (min-width: 750px) {
-	#playgroundBorder {
+	#playground_border {
 		background: linear-gradient(#337ab7, white, #337ab7);
 		max-width: 100%;
 		min-width: 250px;
@@ -33,7 +33,7 @@
 	background-color: white;
 	text-align: center;
 	}
-	#playgroundBorder {
+	#playground_border {
 		background: linear-gradient(#337ab7, white, #337ab7);
 		max-width: 100%;
 		min-width: 250px;
@@ -51,7 +51,7 @@
 	border-radius: 100%;
 	max-width: 100%;
 }
-.diameterElement{
+.diameter-element{
 	font-family: Verdana;
 	padding: auto;
 }
